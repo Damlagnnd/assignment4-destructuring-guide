@@ -1,5 +1,7 @@
 # Destructuring Field Guide
 
+**GitHub repository:** https://github.com/Damlagnnd/assignment4-destructuring-guide
+
 **Name:** Damla Günendi
 
 **Student number:** 2200004319
@@ -699,3 +701,28 @@ The analysis includes:
 - Multiple React props destructuring examples
 
 The examples were taken from `src/App.tsx` and `src/TaskRow.tsx` in the original project.
+
+
+
+## Bonus 4: GitHub Repository
+
+Repository:
+https://github.com/Damlagnnd/assignment4-destructuring-guide
+
+The repository contains the complete Assignment 4 project, including:
+
+- JavaScript and TypeScript source files
+- README documentation
+- Captured execution output
+- Bonus 1 LaTeX source and PDF
+- Bonus 2 advanced experiments
+- Bonus 3 real-code analysis
+
+The `.gitignore` file excludes `node_modules` and temporary build files.
+
+The repository was initialized with Git and pushed to the `main` branch.
+
+Commit history:
+- `9ddc197` — Initial commit: destructuring field guide and bonus implementations
+
+The additional commit-history requirement is still in progress.
