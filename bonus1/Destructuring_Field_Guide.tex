@@ -1,0 +1,286 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\definecolor{ink}{HTML}{183153}
+\definecolor{accent}{HTML}{176B87}
+\definecolor{codebg}{HTML}{F3F6F9}
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent}
+\titleformat{\section}{\Large\bfseries\color{ink}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\color{accent}}{\thesubsection}{.7em}{}
+\lstdefinestyle{code}{basicstyle=\ttfamily\footnotesize,backgroundcolor=\color{codebg},frame=single,framerule=0.2pt,rulecolor=\color{gray!40},breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,tabsize=2,aboveskip=6pt,belowskip=7pt}
+\lstset{style=code}
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+setlength{\headheight}{15pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{Destructuring Field Guide}\fancyhead[R]{Assignment 4 / Bonus 1}\fancyfoot[C]{\thepage}
+\begin{document}
+\begin{titlepage}
+\vspace*{37mm}
+{\color{accent}\rule{\linewidth}{2pt}}\\[14mm]
+{\Huge\bfseries\color{ink} Destructuring Field Guide}\\[5mm]
+{\Large JavaScript, TypeScript \& React}\\[12mm]
+{\large Assignment 4 --- Bonus 1: LaTeX/PDF edition}\\[20mm]
+\begin{tabular}{@{}ll@{}}
+Student & Damla G\"unendi \\
+Student number & 2200004319 \\
+Course & Advanced Web Programming \\
+Source & Code examples from assignment starter project
+\end{tabular}
+\vfill
+{\small A companion to \texttt{README.md} and the actual \texttt{output.txt} log.}\par
+{\color{accent}\rule{\linewidth}{2pt}}
+\end{titlepage}
+\tableofcontents\newpage
+\section{Purpose and verification}
+The guide demonstrates 12 destructuring forms in JavaScript and TypeScript, five JavaScript pitfalls, five TypeScript typing topics, and seven React props/children questions. Examples are matched to the user's observed project output. It does not claim any additional command was run to generate these examples.
+\begin{lstlisting}
+npm install
+npm run all
+npm run check
+# PowerShell: npm run all > output.txt
+\end{lstlisting}
+\section{Twelve destructuring forms}
+\subsection{Form 1: Array return values}
+\textbf{Example syntax}
+\begin{lstlisting}
+const [midterm, finalExam] = getExamResults();
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 1: 85 92
+\end{lstlisting}
+\textbf{Use it when / watch out:} Use when a function returns ordered values. Array element order matters.
+
+\textbf{TypeScript note:} TypeScript: return \texttt{[number, number]} as a tuple.
+\subsection{Form 2: Skip and rest}
+\textbf{Example syntax}
+\begin{lstlisting}
+const [, secondLanguage, ...others] = languages;
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 2: JavaScript [ 'TypeScript', 'Java' ]
+\end{lstlisting}
+\textbf{Use it when / watch out:} Skip unused indices; rest collects remaining elements and must be last.
+
+\textbf{TypeScript note:} TypeScript: \texttt{string[]} indicates homogeneous array items.
+\subsection{Form 3: Swap variables}
+\textbf{Example syntax}
+\begin{lstlisting}
+[firstScore, secondScore] = [secondScore, firstScore];
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 3: 95 70
+\end{lstlisting}
+\textbf{Use it when / watch out:} Swap values without a temporary variable; variables need to be reassignable.
+
+\textbf{TypeScript note:} TypeScript ensures assignments respect declared variable types.
+\subsection{Form 4: Array defaults}
+\textbf{Example syntax}
+\begin{lstlisting}
+const [quizScore = 0, projectScore = 100] = [88];
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 4: 88 100
+\end{lstlisting}
+\textbf{Use it when / watch out:} Missing elements receive the default; null does not activate defaults.
+
+\textbf{TypeScript note:} With noUncheckedIndexedAccess, array access can be undefined.
+\subsection{Form 5: Object properties}
+\textbf{Example syntax}
+\begin{lstlisting}
+const { title, status } = task;
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 5: Finish web assignment in-progress
+\end{lstlisting}
+\textbf{Use it when / watch out:} Read named properties; object property order does not matter.
+
+\textbf{TypeScript note:} A Task type limits the permitted status strings.
+\subsection{Form 6: Rename a property}
+\textbf{Example syntax}
+\begin{lstlisting}
+const { name: studentName } = student;
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 6: Damla
+\end{lstlisting}
+\textbf{Use it when / watch out:} The local variable is studentName, not name.
+
+\textbf{TypeScript note:} The colon renames, rather than annotating a type.
+\subsection{Form 7: Object defaults}
+\textbf{Example syntax}
+\begin{lstlisting}
+const { credits = 4 } = course;
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 7: 4
+\end{lstlisting}
+\textbf{Use it when / watch out:} Fallback occurs when a property is undefined, not null.
+
+\textbf{TypeScript note:} Optional property: credits?: number.
+\subsection{Form 8: Object rest}
+\textbf{Example syntax}
+\begin{lstlisting}
+const { projectName, ...projectDetails } = project;
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 8: Task Manager { language: 'TypeScript', framework: 'React' }
+\end{lstlisting}
+\textbf{Use it when / watch out:} Creates a shallow object with remaining enumerable own properties.
+
+\textbf{TypeScript note:} TypeScript retains inferred property types of the remainder.
+\subsection{Form 9: Nested patterns}
+\textbf{Example syntax}
+\begin{lstlisting}
+const { location: { city }, courses: [firstCourse] } = university;
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 9: Istanbul Web Programming
+\end{lstlisting}
+\textbf{Use it when / watch out:} Read values at multiple levels; missing parent objects can throw.
+
+\textbf{TypeScript note:} Nested object and tuple types describe the expected shape.
+\subsection{Form 10: Computed keys}
+\textbf{Example syntax}
+\begin{lstlisting}
+const { [selectedExam]: selectedGrade } = grades;
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 10: 95
+\end{lstlisting}
+\textbf{Use it when / watch out:} Use a runtime variable as a property key.
+
+\textbf{TypeScript note:} keyof Grades restricts the chosen key.
+\subsection{Form 11: Function parameters}
+\textbf{Example syntax}
+\begin{lstlisting}
+function createTask({ title = "Untitled", status = "todo" } = {}) { return { title, status }; }
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 11c: { title: 'Untitled', status: 'todo' }
+\end{lstlisting}
+\textbf{Use it when / watch out:} The outer default supports zero arguments; individual defaults cover missing fields.
+
+\textbf{TypeScript note:} TaskOptions defines optional properties and accepted status values.
+\subsection{Form 12: Entries in loops}
+\textbf{Example syntax}
+\begin{lstlisting}
+for (const [course, grade] of Object.entries(courseGrades)) { console.log(course, grade); }
+\end{lstlisting}
+\textbf{Observed output}
+\begin{lstlisting}
+form 12 object: JavaScript 90
+\end{lstlisting}
+\textbf{Use it when / watch out:} Object.entries yields pairs; Maps also iterate as key-value pairs.
+
+\textbf{TypeScript note:} Record<string, number> and Map<string, string> specify types.
+\section{Five JavaScript pitfalls}
+\begin{longtable}{@{}p{.11\linewidth}p{.36\linewidth}p{.44\linewidth}@{}}
+\toprule Case & Observed console text & Why it happens / fix\\\midrule\endhead
+1 & \texttt{TypeError: Cannot destructure property 'title' of 'undefined'...} & An undefined value is not an object; check its value or default the entire object.\\
+2 & \texttt{pitfall 2: null} & Destructuring defaults apply to undefined, not null. Use \texttt{??} if both should use a fallback.\\
+3 & \texttt{ReferenceError: name is not defined} & \texttt{\{name: studentName\}} declares only the alias.\\
+4 & \texttt{pitfall 4: done} & The executed working assignment is \texttt{(\{ status \} = updatedTask)}. The broken syntax was not executed.\\
+5 & \texttt{pitfall 5: 90 undefined} & A missing array slot yields undefined; use an element default.\\
+\bottomrule
+\end{longtable}
+\section{TypeScript typing experiments}
+\subsection{T1: Renaming is not a type annotation}
+\begin{lstlisting}
+const { title: taskTitle } = task;  // rename
+const { title: typedTitle }: { title: string } = task;
+\end{lstlisting}
+Observed: \texttt{T1 renamed: Complete Assignment 4} and \texttt{T1 typed: Complete Assignment 4}.
+\subsection{T2: Tuple and as const}
+\begin{lstlisting}
+function getResult(): [number, string] { return [95, "passed"]; }
+const coordinates = [41.01, 28.97] as const;
+\end{lstlisting}
+Observed: \texttt{T2 tuple: 95 passed}; \texttt{T2 as const: 41.01 28.97}.
+\subsection{T3: noUncheckedIndexedAccess}
+A regular \texttt{number[]} can yield \texttt{number | undefined} under this compiler option. The observed output was \texttt{T3 first grade: 85} and \texttt{T3 default: 0}.
+\subsection{T4: Optional property defaults}
+\begin{lstlisting}
+type CourseOptions = { credits?: number };
+const options: CourseOptions = {};
+const { credits = 3 } = options;
+\end{lstlisting}
+Observed: \texttt{T4 optional: undefined} and \texttt{T4 default: 3}.
+\subsection{T5: Type error and runtime result}
+\begin{lstlisting}
+const student = { name: "Damla", age: 22 };
+// @ts-expect-error Intentional invalid property for T5
+const { department } = student;
+\end{lstlisting}
+Observed at runtime: \texttt{T5 invalid: undefined}; corrected access: \texttt{T5 fixed: Damla}. A separate, temporary unsuppressed compile experiment yielded \texttt{TS2339}, because \texttt{department} does not exist on the student's type. The temporary test file was then removed, and the project type check passed.
+\section{React props and children (P1--P7)}
+\begin{longtable}{@{}p{.09\linewidth}p{.43\linewidth}p{.39\linewidth}@{}}
+\toprule ID & Technique & Observed effect / key rule \\\midrule\endhead
+P1 & \texttt{function CardA(props)} versus \texttt{CardB(\{title, children\})} & Both rendered \texttt{<section><h2>Study Plan</h2>React</section>}.\\
+P2 & Nested text versus an explicit \texttt{children} prop & Both rendered the same Notes card markup.\\
+P3 & String, number, element, array, undefined, null, false & First four rendered content; undefined, null, and false yielded \texttt{<div></div>}. A plain function is not a renderable child; calling it produces text.\\
+P4 & \texttt{\{title, children, ...rest\}} & DOM attributes passed through. The later \texttt{type="button"} overrode the spread prop.\\
+P5 & Named \texttt{header}/\texttt{footer} props versus children & Both examples generated the same article/header/main/footer structure.\\
+P6 & Default \texttt{label="Pending"} & Undefined gave \texttt{<span>Pending</span>}; null gave \texttt{<span></span>}.\\
+P7 & \texttt{ReactNode}, \texttt{PropsWithChildren}, \texttt{ComponentProps<"button">} & Type-safe children and native button attributes; output included \texttt{<button disabled="">Save task</button>}.\\
+\bottomrule
+\end{longtable}
+\subsection{Illustrative component}
+\begin{lstlisting}
+function Panel({ title, children, ...rest }) {
+  return <section {...rest}><h3>{title}</h3>{children}</section>;
+}
+\end{lstlisting}
+\section{JavaScript and TypeScript comparison}
+\begin{longtable}{@{}p{.27\linewidth}p{.31\linewidth}p{.32\linewidth}@{}}
+\toprule Topic & JavaScript & TypeScript \\\midrule\endhead
+Array extraction & Runtime values & Static type inference \\
+Function return & Any array shape & Tuples constrain elements \\
+Missing index & May be undefined & Index checks can flag undefined \\
+Object property & Runtime key lookup & Property name checked against type \\
+Rename syntax & \texttt{property: alias} & Same rename syntax; types outside pattern \\
+Defaults & Triggered by undefined & Optionality represented in types \\
+Nested access & Shape checked at runtime & Nested types document shape \\
+Dynamic keys & Arbitrary computed key & \texttt{keyof} constrains keys \\
+Function options & Object parameter and defaults & Typed option structures \\
+React children & Render-time behavior & \texttt{ReactNode} helps reject invalid types \\
+\bottomrule
+\end{longtable}
+\section{Documented personal experiments}
+These items summarize experiments reflected in the provided terminal logs, rather than claiming unrecorded work.
+\begin{enumerate}[leftmargin=*]
+\item Undefined object destructuring threw a TypeError.
+\item A null property bypassed the destructuring default.
+\item The old property name caused a ReferenceError after renaming.
+\item An absent array position produced undefined without throwing.
+\item TypeScript reported TS2339 for a missing property, while JS execution returned undefined.
+\end{enumerate}
+\section{Reproducing and maintaining this document}
+The project source remains the authoritative executable reference. Re-run \texttt{npm run all > output.txt} after any changes and use \texttt{npm run check} to verify strict TypeScript. This document was authored in LaTeX and can be compiled with:
+\begin{lstlisting}
+pdflatex -interaction=nonstopmode Destructuring_Field_Guide.tex
+pdflatex -interaction=nonstopmode Destructuring_Field_Guide.tex
+\end{lstlisting}
+The two passes populate the table of contents. Keep both the \texttt{.tex} source and the generated \texttt{.pdf} in the submission to claim Bonus 1.
+\end{document}
