@@ -726,3 +726,39 @@ Commit history:
 - `9ddc197` — Initial commit: destructuring field guide and bonus implementations
 
 The additional commit-history requirement is still in progress.
+
+
+## Automated Destructuring Tests
+
+I added 12 automated tests using Node.js's built-in test runner.
+
+**Test file:** `tests/destructuring.test.mjs`
+
+The tests cover:
+- Array destructuring and rest syntax
+- Variable swapping
+- Default values and null behavior
+- Object renaming and rest properties
+- Nested destructuring
+- Computed property names
+- Function parameter defaults
+- Map entry destructuring
+- Missing array elements
+- Shallow copy behavior
+
+### Running the Tests
+
+```bash
+node --test tests/destructuring.test.mjs
+```
+
+### Test Results
+
+- Total tests: 12
+- Passed: 12
+- Failed: 0
+- Skipped: 0
+
+The actual test output is saved in `tests/test-results.txt`.
+
+These tests were added as an additional improvement to verify destructuring behavior automatically.
