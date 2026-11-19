@@ -1569,6 +1569,7 @@ The `.gitignore` file excludes `node_modules` and temporary build files.
 | `9ddc197` | Initial commit: destructuring field guide and bonus implementations |
 | `1efd4a0` | docs: add GitHub repository and bonus documentation |
 | `c208616` | test: add 12 automated destructuring tests |
+| `10396dc` | test: add 10 React props and children tests |
 
 The React testing improvements are ready to be committed.
 
@@ -1681,3 +1682,27 @@ TypeScript adds static type checking and can detect mistakes before execution.
 React component examples demonstrate how destructuring simplifies props handling.
 
 The advanced experiments, real-code analysis, and automated tests helped reinforce these concepts through practical examples.
+
+## TypeScript Type Safety Tests
+
+I added five additional compile-time tests to verify TypeScript's type safety.
+
+**File:** `tests/type-safety.ts`
+
+The tests cover:
+- Tuple length checking
+- Invalid object property access
+- Optional properties and undefined values
+- Readonly tuple protection
+- Computed property keys with `keyof`
+
+The tests use `@ts-expect-error` to verify that TypeScript detects intentionally invalid operations.
+
+### Run the Type Safety Tests
+```bash
+npx tsc --noEmit --strict --skipLibCheck --target es2022 --module nodenext --moduleResolution nodenext tests/type-safety.ts
+```
+
+### Verified Result
+
+The compiler completed successfully, confirming that all five expected type errors were detected and the remaining code passed type checking.
